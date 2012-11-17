@@ -1,20 +1,16 @@
-/**
- *
- */
 Ext.define('Ext.ux.DataView.LabelEditor', {
-    extend: 'Ext.Editor',
+    extend : 'Ext.Editor',
 
-    alignment: 'tl-tl',
-    completeOnEnter: true,
-    cancelOnEsc: true,
-    shim: false,
+    alignment : 'tl-tl',
+    completeOnEnter : true,
+    cancelOnEsc : true,
+    itemSelector : 'label',
+    shim : false,
 
     autoSize: {
-        width: 'boundEl',
-        height: 'boundEl'
+		width : 'boundEl',
+        height : 'boundEl'
     },
-
-    itemSelector: 'label',
 
     requires: [
         'Ext.form.field.Text'
@@ -82,7 +78,7 @@ Ext.define('Todo.view.TaskList' , {
 	store: 'Tasks',
 	loadMask: false,
 	itemSelector: 'li',
-//	autoEl: 'ul',
+    autoEl: 'ul',
 	
 	tpl: Ext.create('Ext.XTemplate',
        	'<tpl for=".">',

@@ -4,9 +4,11 @@ body {
         padding: 0;
 }
 
+/*
 :focus {
         outline: none;
 }
+*/
 
 .x-body {
         font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -90,8 +92,13 @@ body {
 }
 
 .new-todo {
-        padding-top: 15px;
+        padding-top: 15px; 
         border-radius: inherit;
+/*        padding: 16px 16px 0px 16px;  */
+        border: none;
+        background: rgba(0, 0, 0, 0.02); 
+        z-index: 2;
+        box-shadow: none;         
 }
 
 .new-todo:before {
@@ -120,15 +127,6 @@ body {
         border: 0;
 }
 
-.new-todo {
-        padding: 16px 16px 0px 16px;  
-        border: none;
-        background: rgba(0, 0, 0, 0.02); 
-        z-index: 2;
-        box-shadow: none; 
-}
-
-
 input[type="text"] {
         font-size: 24px;
         font-family: inherit;
@@ -148,18 +146,16 @@ label[for='toggle-all'] {
         display: none;
 }
 
-.toggle-all .x-btn-inner {
+.toggle-all-button {
         -webkit-transform: rotate(90deg);
-        /*-moz-transform: rotate(90deg);*/
         -ms-transform: rotate(90deg);
-        /*-o-transform: rotate(90deg);*/
         transform: rotate(90deg);
         font-size: 28px;
         color: #d9d9d9;
-        padding: 0 25px 7px;
+        padding: 12px 0px;
 }
 
-.toggle-all.x-btn-pressed .x-btn-inner {
+.toggle-all-button.x-btn-pressed {
         color: #737373;
 }
 

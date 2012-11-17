@@ -28,17 +28,16 @@ Ext.define('Todo.view.Main', {
 				layout: 'hbox',
 				items: [{
 					xtype: 'button',
-					text: '»',
 					ui: 'plain',
-					height: 40,
+					cls: 'toggle-all-button',
+					text: '»',
 					width: 40,
 					enableToggle: true,
-					cls: 'toggle-all',
-					inputId: 'toggle-all'
+					action: 'toggleAll'
 				}, {
-					baseCls: null,
+					flex:1,
 					xtype: "textfield",
-					width: "100%",
+					fieldStyle: 'background-color: transparent;',
 					name: 'newtask',
 					enableKeyEvents: true,
 					emptyText: "What needs to be done?"

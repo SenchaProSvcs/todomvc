@@ -8,11 +8,11 @@ Ext.define('Todo.controller.Tasks', {
 	views: ['TaskList' ],
 
 	refs: [
-		{ ref: 'taskList',    selector: 'taskList'},
-		{ ref: 'checkAllBox', selector: 'button[inputId=toggle-all]'},
-		{ ref: 'clearButton', selector: 'button[action=clearCompleted]'},
-		{ ref: 'toolBar',	  selector: 'container[cls=footer]' },
-		{ ref: 'itemsLeft',   selector: 'container[name=itemsLeft]' }
+		{ ref: 'taskList',    	selector: 'taskList'},
+		{ ref: 'toggleAll', 	selector: 'button[action=toggleAll]'},
+		{ ref: 'clearButton', 	selector: 'button[action=clearCompleted]'},
+		{ ref: 'toolBar',	  	selector: 'container[cls=footer]' },
+		{ ref: 'itemsLeft',   	selector: 'container[name=itemsLeft]' }
 	],
 
 	init: function() {
@@ -29,7 +29,7 @@ Ext.define('Todo.controller.Tasks', {
 			'button[action=clearCompleted]': {
 				click: 				this.onClearButtonClick
 			},
-			'button[inputId=toggle-all]': {
+			'button[action=toggleAll]': {
 				toggle: 			this.onCheckAllClick
 			}
 		});
@@ -115,7 +115,7 @@ Ext.define('Todo.controller.Tasks', {
 
 	onCheckAllClick: function(cb, newValue, oldValue, opts) {
 		var store = this.getTasksStore();
-console.log("toggled");
+
 		store.suspendEvents();
 		store.each(function(record) {
 			record.set('checked', newValue);
@@ -132,6 +132,7 @@ console.log("toggled");
 			tasklist 	= me.getTaskList(),
 			store 		= me.getTasksStore(),
 			button 		= me.getClearButton(),
+			toggleAll 	= me.getToggleAll(),
 			itemsLeft 	= me.getItemsLeft(),
 
 			totalCount  = store.queryBy(function(record) {
@@ -148,8 +149,8 @@ console.log("toggled");
 			text = 'Clear completed ('+ completedCount +')';
 		}
 
-		this.getCheckAllBox().setVisible(totalCount);
-		this.getCheckAllBox().toggle(activeCount == 0, true);
+		toggleAll.setVisible(totalCount);
+		toggleAll.toggle(activeCount == 0, true);
 
 		button.setText(text);
 		button.setVisible(completedCount);
