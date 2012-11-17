@@ -2,6 +2,7 @@ ToDo MVC
 
 Things to do:
 
+- Fix white space above new todo text field
 - CSS styling for box shadow for 'footer' is 'cludged' and disappears at times. Needs more work.
 - Add Bold styling to active routing link
 
