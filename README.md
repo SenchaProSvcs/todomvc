@@ -2,10 +2,8 @@ ToDo MVC
 
 Things to do:
 
-- align checkAllButton properly
-
 - CSS styling for box shadow for 'footer' is 'cludged' and disappears at times. Needs more work.
-
+- Add Bold styling to active routing link
 
 Problems with Framework encountered :
 
