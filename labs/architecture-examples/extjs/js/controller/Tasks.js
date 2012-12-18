@@ -1,36 +1,49 @@
 Ext.define('Todo.controller.Tasks', {
 	extend: 'Ext.app.Controller',
 
-	models: ['Task'],
+	models: [ 'Task' ],
 
-	stores: ['Tasks'],
+	stores: [ 'Tasks' ],
 
-	views: ['TaskList' ],
+	views: 	[ 'TaskList' ],
 
 	refs: [
 		{ ref: 'taskList',    	selector: 'taskList'},
 		{ ref: 'toggleAll', 	selector: 'button[action=toggleAll]'},
 		{ ref: 'clearButton', 	selector: 'button[action=clearCompleted]'},
 		{ ref: 'toolBar',	  	selector: 'container[cls=footer]' },
-		{ ref: 'itemsLeft',   	selector: 'container[name=itemsLeft]' }
+		{ ref: 'itemsLeft',   	selector: 'container[name=itemsLeft]' },
+		{ ref: 'todoeditor', 	selector: 'todoeditor' }
 	],
 
 	init: function() {
 		this.control({
-			'textfield[name=newtask]': {
-				keyup: 				this.onTaskFieldKeyup
+			'todoeditor' : {
+				'complete': 		this.onCompleteEdit
 			},
 			'taskList': {
 				todoChecked: 		this.onTodoChecked,
-//				itemdblclick: 		this.onTodoDblClicked,
+				itemdblclick: 		this.onTodoDblClicked,
 //				onTaskEditKeyup: 	this.onTaskEditKeyup,
 				todoRemoveSelected: this.onTodoRemoveSelected
+			},
+			'textfield[name=newtask]': {
+				keyup: 				this.onTaskFieldKeyup
 			},
 			'button[action=clearCompleted]': {
 				click: 				this.onClearButtonClick
 			},
 			'button[action=toggleAll]': {
 				toggle: 			this.onCheckAllClick
+			},
+			'button[action=changeView]': {
+				click: function(btn) {
+					var btns =  Ext.ComponentQuery.query('button[action=changeView]');
+
+					Ext.each(btns, function(x) {
+						x.getEl().down('a').applyStyles({ 'font-weight': x == btn ? 'bold' : 'normal'});
+					});
+				}
 			}
 		});
 
@@ -64,8 +77,22 @@ Ext.define('Todo.controller.Tasks', {
 	},
 
 	onTodoDblClicked: function (list, record, el) {
-		record.set('editing', true);
-		record.commit();
+		var editor = this.getTodoeditor();
+
+		editor.activeRecord = record;
+		editor.startEdit(el, record.data[editor.dataIndex]);
+	},
+
+	onCompleteEdit: function(editor, value) {
+		var viewStore = this.getTaskList().getStore();
+
+    	if (!value) {
+    		viewStore.remove(this.activeRecord);
+    	}
+    	else {
+	        editor.activeRecord.set(editor.dataIndex, value);
+    	}
+        viewStore.sync();
 	},
 
 	onTodoRemoveSelected: function (record) {
