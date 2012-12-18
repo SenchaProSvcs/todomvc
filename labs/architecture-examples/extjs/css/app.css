@@ -4,30 +4,8 @@ body {
         padding: 0;
 }
 
-/*
-:focus {
-        outline: none;
-}
-*/
-
 .x-body {
         font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-button {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: none;
-        font-size: 100%;
-        vertical-align: baseline;
-        font-family: inherit;
-        color: inherit;
-        -webkit-appearance: none;
-        /*-moz-appearance: none;*/
-        -ms-appearance: none;
-        -o-appearance: none;
-        appearance: none;
 }
 
 body {
@@ -43,7 +21,6 @@ body {
         -o-font-smoothing: antialiased;
         font-smoothing: antialiased;
 }
-
 
 .header {
         font-size: 70px;
@@ -68,7 +45,8 @@ body {
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
         box-shadow:     0 2px 6px 0 rgba(0, 0, 0, 0.2), 
-                        0 25px 50px 0 rgba(0, 0, 0, 0.15);
+                        0 25px 50px 0 rgba(0, 0, 0, 0.15); 
+                        
 }
 
 .todoapp:before {
@@ -91,15 +69,33 @@ body {
         color: #a9a9a9;
 }
 
+button {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: 100%;
+        vertical-align: baseline;
+        font-family: inherit;
+        color: inherit;
+/*        -webkit-appearance: none; */
+        -moz-appearance: none; 
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+}
+
+/*
 .new-todo {
         padding-top: 15px; 
         border-radius: inherit;
-/*        padding: 16px 16px 0px 16px;  */
+        padding: 16px 16px 0px 16px;  
         border: none;
         background: rgba(0, 0, 0, 0.02); 
         z-index: 2;
         box-shadow: none;         
 }
+*/
 
 .new-todo:before {
         content: '';
@@ -122,24 +118,23 @@ body {
         border-top-right-radius: 1px; 
 }
 
-.new-todo .x-form-text {
-        height: 65px;
-        border: 0;
+.new-todo {
+        padding-top: 15px;
+        border-radius: inherit;
+        border: none;
+        background: rgba(0, 0, 0, 0.02); 
+        z-index: 2;
+        box-shadow: none;         
 }
 
-input[type="text"] {
-        font-size: 24px;
-        font-family: inherit;
-        line-height: 1.4em; 
-        outline: none;
-        padding: 0px 0px 0px 14px;
-        border: 1px solid #999999; 
-        -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-        -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-        -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-        -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-        box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset; 
-
+.todoapp input[type=text], .todo-list input[type=text], input[type=text] {
+        background-color: transparent;
+        background-image: none;
+        font: 24px 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+        line-height: 1.4em;
+        border: none;
+        color: #4D4D4D;
+        padding: 0px 0px 0px 20px;
 }
 
 label[for='toggle-all'] {
@@ -152,7 +147,7 @@ label[for='toggle-all'] {
         transform: rotate(90deg);
         font-size: 28px;
         color: #d9d9d9;
-        padding: 12px 0px;
+        padding: 14px;
 }
 
 .toggle-all-button.x-btn-pressed {
@@ -168,23 +163,23 @@ label[for='toggle-all'] {
         padding: 0;
         list-style: none;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-                    0 6px 0 -3px rgba(255, 255, 255, 0.8),
-                    0 7px 1px -3px rgba(0, 0, 0, 0.3),
-                    0 43px 0 -6px rgba(255, 255, 255, 0.8),
-                    0 44px 2px -6px rgba(0, 0, 0, 0.2);
-
+                0 6px 0 -3px rgba(255, 255, 255, 0.8),
+                0 7px 1px -3px rgba(0, 0, 0, 0.3),
+                0 43px 0 -6px rgba(255, 255, 255, 0.8),
+                0 44px 2px -6px rgba(0, 0, 0, 0.2); 
 }
 
 .todo-list li {
         position: relative; 
         font-size: 24px;
-        border-bottom: 1px solid #ccc;
+        border-top: 1px dotted #ADADAD;
 }
 
+/*
 .todo-list li:last-child {
         border-bottom: none;
 }
-
+*/
 
 .todo-list li .toggle {
         text-align: center;
@@ -237,12 +232,12 @@ label[for='toggle-all'] {
         display: none;
         float: right;
         position: absolute;
-        top: 0;
-        right: 10px;
+        top: 20px;
+        right: 5px;
         bottom: 0; 
         width: 40px;
         height: 40px;
-        margin-top: 8px;
+        margin-top: 0px;
         margin: auto 0; 
         font-size: 22px;
         color: #a88a8a;
@@ -281,25 +276,25 @@ label[for='toggle-all'] {
 }
 
 .filters {
-        margin: 0;
+/*        margin: 0;
         padding: 0;
         list-style: none;
-        position: absolute;
+       position: absolute;
         right: 0;
-        left: 0;
+        left: 0;*/
 }
 
 .filters li {
         display: inline;
 }
 
-.filters li a {
+.filters  a {
         color: #83756f;
-        margin: 2px;
+        margin: 2px; 
         text-decoration: none;
 }
 
-.filters li a.selected {
+.filters a.selected {
         font-weight: bold;
 }
 
@@ -312,68 +307,87 @@ label[for='toggle-all'] {
 }
 
 .footer:before {
-        content: '';
-        position: absolute; 
-        right: 0;
-        top: 0;
-/*        bottom: -31px;   */
-        left: 0;
-        height: 50px; 
-/* overflow: visible; */
-/*        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-                    0 6px 0 -3px rgba(255, 255, 255, 0.8),
-                    0 7px 1px -3px rgba(0, 0, 0, 0.3),
-                    0 43px 0 -6px rgba(255, 255, 255, 0.8),
-                    0 44px 2px -6px rgba(0, 0, 0, 0.2);
-*/
+/*    content: '';
+    position: absolute; 
+    right: 0;
+    top: 0px;
+    top: -62px; 
+    left: 0;
+    height: 50px;  
+    overflow: visible; 
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
+                0 6px 0 -3px rgba(255, 255, 255, 0.8),
+                0 7px 1px -3px rgba(0, 0, 0, 0.3),
+                0 43px 0 -6px rgba(255, 255, 255, 0.8),
+                0 44px 2px -6px rgba(0, 0, 0, 0.2); */
 }
 
-/*
+
 .clear-completed {
+    float: right;
+    position: relative;
+    line-height: 20px;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 11px;
+    padding: 0 10px;
+    border-radius: 3px;
+    -webkit-appearance: none;
+/*    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2); */
+
+/*
+    -webkit-appearance: none;
         float: right;
         line-height: 20px;
         text-decoration: none;
         background: rgba(0, 0, 0, 0.1);
-        color: #555555;
+        color: #777;
         font-size: 11px;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        margin-top: 8px; 
+        margin-bottom: 8px; 
         padding: 0 10px 1px;
         cursor: pointer;
-        -webkit-border-radius: 12px;
-        -moz-border-radius: 12px;
-        -ms-border-radius: 12px;
-        -o-border-radius: 12px;
-        border-radius: 12px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
         -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
         -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
         -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
         -o-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
-        box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
+        box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0; */
 }
 
 .clear-completed:hover {
-        background: rgba(0, 0, 0, 0.15);
-        -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-        -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-        -ms-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-        -o-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-        box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+    background: rgba(0, 0, 0, 0.15);
+/*    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3); */
 }
 
+/*
 .clear-completed:active {
-        position: relative;
-        top: 1px;
+    position: relative;
+    top: 1px;
 }
 
 */
 
 .info {
-        margin: 65px auto 0;
-        color: #a6a6a6;
-        font-size: 12px;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-        text-align: center;
+    margin: 45px auto 0;
+    color: #a6a6a6;
+    font-size: 12px;
+    line-height: 1.4em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+.info p {
+    line-height: 1.4em;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
 }
 
 .info a {
