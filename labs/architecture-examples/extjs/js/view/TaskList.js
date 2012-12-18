@@ -1,5 +1,6 @@
 Ext.define('Ext.ux.DataView.LabelEditor', {
     extend : 'Ext.Editor',
+    alias: 'widget.todoeditor',
 
     alignment : 'tl-tl',
     completeOnEnter : true,
@@ -18,6 +19,8 @@ Ext.define('Ext.ux.DataView.LabelEditor', {
 
     constructor: function(config) {
         config.field = config.field || Ext.create('Ext.form.field.Text', {
+            baseCls:null,
+            cls: 'todo-list',
             allowOnlyWhitespace: false,
             selectOnFocus:true
         });
@@ -26,49 +29,8 @@ Ext.define('Ext.ux.DataView.LabelEditor', {
 
     init: function(view) {
         this.view = view;
-        this.mon(view, 'render', this.bindEvents, this);
-        this.on('complete', this.onSave, this);
-    },
-
-    // initialize events
-    bindEvents: function() {
-        this.mon(this.view.getEl(), {
-            dblclick: {
-                fn: this.onClick,
-                scope: this
-            }
-        });
-    },
-
-    // on mousedown show editor
-    onClick: function(e, target) {
-        var me = this,
-            item, record;
-
-        if (Ext.fly(target).is(me.itemSelector) && !me.editing && !e.ctrlKey && !e.shiftKey) {
-            e.stopEvent();
-            item = me.view.findItemByChild(target);
-            record = me.view.store.getAt(me.view.indexOf(item));
-            me.startEdit(target, record.data[me.dataIndex]);
-            me.activeRecord = record;
-//            me.activeRecord.set('editing', true);
-        } else if (me.editing) {
-            me.field.blur();
-	        e.preventDefault();
-        }
-    },
-
-    // update record
-    onSave: function(ed, value) {
-    	if (!value) {
-    		this.view.store.remove(this.activeRecord);
-    	}
-    	else {
-	        this.activeRecord.set(this.dataIndex, value);
-//    	    this.activeRecord.set('editing', false);
-    	}
-        this.view.store.sync();
     }
+
 });
 
 Ext.define('Todo.view.TaskList' , {
@@ -99,7 +61,6 @@ Ext.define('Todo.view.TaskList' , {
 
 	listeners: {
 		render: function () {
-
 			this.el.on('click', function (clickEvent, el) {
 				var extEl = Ext.get(el)
 				  , parent;
