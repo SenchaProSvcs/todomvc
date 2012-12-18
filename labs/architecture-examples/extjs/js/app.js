@@ -3,12 +3,12 @@ Ext.Loader.setConfig({
 });
 
 Ext.application({
-	name: 'Todo',
-	appFolder: 'js',
+	name: 			'Todo',
+	appFolder: 		'js',
 
-	stores: [ 'Tasks' ],
+	stores: 		[ 'Tasks' ],
 
-	controllers: ['Tasks'],
+	controllers: 	[ 'Tasks'],
 
 	launch: function() {
 
@@ -21,7 +21,6 @@ Ext.application({
 		}, this);
 
 		Ext.History.on('change', this.setRoute, this);
-
 	},
 
 	setRoute: function(token) {
