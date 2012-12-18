@@ -18,26 +18,34 @@ Ext.define('Todo.view.Main', {
 	config: {
 		items: [{
 			cls: 'header',
+			height: 130,
+			style: 'padding-top: 37px',
 			html: 'todos'
 		},{
 			cls: 'todoapp',
 			items: [{
 				baseCls: null,
 				xtype: 'container',
-				cls: 'new-todo',
-				layout: 'hbox',
+				cls: 'new-todo', 
+				layout: 'hbox', 
+				height: 80,
 				items: [{
-					xtype: 'button',
-					ui: 'plain',
-					cls: 'toggle-all-button',
-					text: '»',
-					width: 40,
-					enableToggle: true,
-					action: 'toggleAll'
+					xtype: 'container',
+					baseCls: null,
+					width: 40, 
+					items: [{
+						xtype: 'button',
+						ui: 'plain',
+						cls: 'toggle-all-button',
+						text: '»',
+						enableToggle: true,
+						action: 'toggleAll'
+					}]
 				}, {
 					flex:1,
+					cls: 'edit',
 					xtype: "textfield",
-					fieldStyle: 'background-color: transparent;',
+					height: 64, 
 					name: 'newtask',
 					enableKeyEvents: true,
 					emptyText: "What needs to be done?"
@@ -72,17 +80,25 @@ Ext.define('Todo.view.Main', {
 				xtype: 'container',
 				baseCls: null,
 				cls: 'filters',
-				html: [
-					'<li>',
-						'<a class="selected" href="#/">All</a>',
-					'</li>',
-					'<li>',
-						'<a href="#/active">Active</a>',
-					'</li>',
-					'<li>',
-						'<a href="#/completed">Completed</a>',
-					'</li>'
-				].join("")
+				defaults: {
+					style: 'margin-left: 5px; margin-right: 5px;',
+					xtype: 'button',
+					ui: 'plain',
+					hrefTarget: '_self'
+				},
+				items: [{
+					text: 'All',
+					action: 'changeView',
+					href: '#/'
+				}, {
+					text: 'Active',
+					action: 'changeView',
+					href: '#/active'
+				}, {
+					text: 'Completed',
+					action: 'changeView',
+					href: '#/completed'
+				}]
 			}, {
 				flex: 1,
 				baseCls: null,
@@ -96,6 +112,8 @@ Ext.define('Todo.view.Main', {
 				}]
 			}]
 		}, {
+			xtype: 'container',
+			baseCls: null,
 			cls: 'info',
 			html: [
 				'<p>Double-click to edit a todo</p>',
