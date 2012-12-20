@@ -85,18 +85,6 @@ button {
         appearance: none;
 }
 
-/*
-.new-todo {
-        padding-top: 15px; 
-        border-radius: inherit;
-        padding: 16px 16px 0px 16px;  
-        border: none;
-        background: rgba(0, 0, 0, 0.02); 
-        z-index: 2;
-        box-shadow: none;         
-}
-*/
-
 .new-todo:before {
         content: '';
         position: absolute;
@@ -162,11 +150,6 @@ label[for='toggle-all'] {
         background: #fff;
         padding: 0;
         list-style: none;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-                0 6px 0 -3px rgba(255, 255, 255, 0.8),
-                0 7px 1px -3px rgba(0, 0, 0, 0.3),
-                0 43px 0 -6px rgba(255, 255, 255, 0.8),
-                0 44px 2px -6px rgba(0, 0, 0, 0.2); 
 }
 
 .todo-list li {
@@ -307,7 +290,8 @@ label[for='toggle-all'] {
 }
 
 .footer:before {
-/*    content: '';
+    pointer-events: none;
+    content: '';
     position: absolute; 
     right: 0;
     top: 0px;
@@ -319,7 +303,7 @@ label[for='toggle-all'] {
                 0 6px 0 -3px rgba(255, 255, 255, 0.8),
                 0 7px 1px -3px rgba(0, 0, 0, 0.3),
                 0 43px 0 -6px rgba(255, 255, 255, 0.8),
-                0 44px 2px -6px rgba(0, 0, 0, 0.2); */
+                0 44px 2px -6px rgba(0, 0, 0, 0.2); 
 }
 
 
@@ -364,16 +348,7 @@ label[for='toggle-all'] {
 /*    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3); */
 }
 
-/*
-.clear-completed:active {
-    position: relative;
-    top: 1px;
-}
-
-*/
-
 .info {
-    margin: 45px auto 0;
     color: #a6a6a6;
     font-size: 12px;
     line-height: 1.4em;
