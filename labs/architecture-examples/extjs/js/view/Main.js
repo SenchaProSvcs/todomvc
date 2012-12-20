@@ -23,7 +23,7 @@ Ext.define('Todo.view.Main', {
 			html: 'todos'
 		},{
 			cls: 'todoapp',
-			id: 'kevin',
+			id: 'todoapp',
 			items: [{
 				baseCls: null,
 				xtype: 'container',
@@ -52,7 +52,6 @@ Ext.define('Todo.view.Main', {
 					emptyText: "What needs to be done?"
 				}]
 			}, {
-				baseCls: null,
 				cls: 'todo-list',
 				xtype: 'taskList'
 			}]
@@ -105,11 +104,10 @@ Ext.define('Todo.view.Main', {
 					}]
 				}, {
 					flex: 1,
-					baseCls: null,
+//					baseCls: null,
 					xtype: 'container',
 					items: [{
 						xtype: 'button',
-						baseCls: null,
 						action: 'clearCompleted',
 						cls: 'clear-completed',
 						text: 'Clear completed'
@@ -118,7 +116,6 @@ Ext.define('Todo.view.Main', {
 			}]
 		}, {
 			xtype: 'container',
-			baseCls: null,
 			cls: 'info',
 			html: [
 				'<p>Double-click to edit a todo</p>',
