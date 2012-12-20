@@ -3,11 +3,11 @@ Ext.define('Ext.ux.DataView.LabelEditor', {
     alias	: 'widget.todoeditor',
 
     dataIndex: 'label',
-    renderTo: 'kevin', 
+    renderTo: 'todoapp', 
 
     autoSize: {
-		width : 'boundEl',
-        height : 'boundEl'
+		width 	: 'boundEl',
+        height 	: 'boundEl'
     },
 
 	field: {
