@@ -13,123 +13,102 @@ Ext.define('Todo.controller.Tasks', {
 		{ ref: 'clearButton', 	selector: 'button[action=clearCompleted]'},
 		{ ref: 'toolBar',	  	selector: 'container[cls=footer]' },
 		{ ref: 'itemsLeft',   	selector: 'container[name=itemsLeft]' },
-		{ ref: 'todoeditor', 	selector: 'todoeditor' }
+		{ ref: 'todoeditor', 	selector: 'todoeditor', xtype: 'todoeditor', autoCreate: true }
 	],
 
 	init: function() {
+
 		this.control({
 			'todoeditor' : {
-				'complete': 		this.onCompleteEdit
+				'complete'		: this.onCompleteEdit
 			},
-			'taskList': {
-				todoChecked: 		this.onTodoChecked,
-				itemdblclick: 		this.onTodoDblClicked,
-//				onTaskEditKeyup: 	this.onTaskEditKeyup,
-				todoRemoveSelected: this.onTodoRemoveSelected
+			'taskList' : {
+				'todoChecked' 	: this.onTodoChecked,
+				'itemdblclick' 	: this.onTodoDblClicked,
+				'removeItem'	: this.onTodoRemoveItem
 			},
-			'textfield[name=newtask]': {
-				keyup: 				this.onTaskFieldKeyup
+			'textfield[name=newtask]' : {
+				'keyup'			: this.onTaskFieldKeyup
 			},
 			'button[action=clearCompleted]': {
-				click: 				this.onClearButtonClick
+				'click'			: this.onClearButtonClick
 			},
 			'button[action=toggleAll]': {
-				toggle: 			this.onCheckAllClick
+				'toggle'		: this.onCheckAllClick
 			},
 			'button[action=changeView]': {
 				click: function(btn) {
 					var btns =  Ext.ComponentQuery.query('button[action=changeView]');
 
 					Ext.each(btns, function(x) {
-						x.getEl().down('a').applyStyles({ 'font-weight': x == btn ? 'bold' : 'normal'});
+						x.getEl().down('span').applyStyles({ 'text-align': 'center', 'font-weight': x == btn ? 'bold' : 'normal'});
 					});
 				}
 			}
 		});
 
-		this.getTasksStore().on({
-			scope: this,
-			load: this.onStoreDataChanged,
-			update: this.onStoreDataChanged,
-			datachanged: this.onStoreDataChanged
-		});
+		this.store = this.getTasksStore();
 
+		this.store.on({
+			load		: this.onStoreDataChanged,
+			update		: this.onStoreDataChanged,
+			datachanged : this.onStoreDataChanged,
+			scope 		: this
+		});
 	},
 
-	onTaskFieldKeyup: function(field, event) {
+	onTaskFieldKeyup: function( field, event ) {
 		var ENTER_KEY_CODE = 13,
 			value = field.getValue().trim();
 
-		console.log("saving ....");
 		if (event.keyCode === ENTER_KEY_CODE && value !== '') {
-			var store = this.getTasksStore();
-			store.add({label: value, checked: false});
-			store.filter();
-			store.sync();
+			this.store.add({label: value, checked: false});
+			this.store.filter();
+			this.store.sync();
 			field.reset();
 		}
 	},
 
-	onTodoChecked: function(record) {
+	onTodoChecked: function( record ) {
 		record.set('checked', !record.get('checked'));
-		this.getTasksStore().sync();
+		this.store.filter();
+		this.store.sync();
 		record.commit();
 	},
 
-	onTodoDblClicked: function (list, record, el) {
-		var editor = this.getTodoeditor();
+	onTodoDblClicked: function ( list, record, el ) {
+		var editor = this.getTodoeditor(),
+			label = Ext.get(el).down('label');
 
 		editor.activeRecord = record;
-		editor.startEdit(el, record.data[editor.dataIndex]);
+//		editor.activeRecord.set('editing', true);
+//		this.getTasksStore().sync();
+		editor.startEdit(label, record.data['label']);
 	},
 
-	onCompleteEdit: function(editor, value) {
-		var viewStore = this.getTaskList().getStore();
+	onCompleteEdit: function( editor, value ) {
+		var value = value.trim();
 
-    	if (!value) {
-    		viewStore.remove(this.activeRecord);
+    	if ( !value ) {
+    		this.store.remove(editor.activeRecord);
     	}
     	else {
-	        editor.activeRecord.set(editor.dataIndex, value);
+    		editor.activeRecord.set({
+    			'label' 	: value,
+    			'editing' 	: false
+    		});
     	}
-        viewStore.sync();
+        this.store.sync();
 	},
 
-	onTodoRemoveSelected: function (record) {
-		var store = this.getTasksStore();
-		store.remove(record);
-		store.sync();
-	},
-
-	onTaskEditDeselect: function(event, record, extEl) {
-		console.log("edit blur");
-	},
-
-	onTaskEditKeyup: function (event, record, extEl) {
-		console.log("edit key up");
-		var ENTER_KEY_CODE = 13;
-		if (event.keyCode === ENTER_KEY_CODE) {
-			this.finalizeTaskEdit(extEl, record);
-		}
-	},
-
-	finalizeTaskEdit: function (extEl, record) {
-		var value = extEl.getValue().trim();
-
-		if (!value) {
-			var store = this.getTasksStore();
-			store.remove(record);
-		} else {
-			record.set('label', value);
-			record.set('editing', false);
-			this.getTasksStore().sync();
-			record.commit();
-		}
+	onTodoRemoveItem: function (record) {
+		this.store.remove(record);
+		this.store.sync();
 	},
 
 	onClearButtonClick: function() {
 		var records = [],
-			store = this.getTasksStore();
+			store = this.store;
 
 		store.each(function(record) {
 			if (record.get('checked')) {
@@ -141,7 +120,7 @@ Ext.define('Todo.controller.Tasks', {
 	},
 
 	onCheckAllClick: function(cb, newValue, oldValue, opts) {
-		var store = this.getTasksStore();
+		var store = this.store;
 
 		store.suspendEvents();
 		store.each(function(record) {
@@ -185,5 +164,4 @@ Ext.define('Todo.controller.Tasks', {
 		itemsLeft.update({ counts: activeCount });
 		toolbar.setVisible(totalCount);	
 	}
-
 });
