@@ -23,6 +23,7 @@ Ext.define('Todo.view.Main', {
 			html: 'todos'
 		},{
 			cls: 'todoapp',
+			id: 'kevin',
 			items: [{
 				baseCls: null,
 				xtype: 'container',
@@ -56,59 +57,63 @@ Ext.define('Todo.view.Main', {
 				xtype: 'taskList'
 			}]
 		}, {
+			xtype: 'container',
+			height: 45,
 			baseCls: null,
-			cls: 'footer',
-			layout: {
-				type: 'hbox',
-				align: 'stretch'
-			},
 			items: [{
-				flex: 1,
+				cls: 'footer',
 				baseCls: null,
-				style: 'text-align: left;',
-				name: 'itemsLeft',
-				data: { counts: 0 },
-				tpl: [
-					'<tpl><span id="todo-count"><b>{counts}</b> item',
-						'<tpl if="counts &gt; 1">s</tpl>',
-						'<tpl if="counts == 0">s</tpl>',
-					' left</span>',
-					'</tpl>'
-				]
-			}, {
-				flex: 1,
-				xtype: 'container',
-				baseCls: null,
-				cls: 'filters',
-				defaults: {
-					style: 'margin-left: 5px; margin-right: 5px;',
-					xtype: 'button',
-					ui: 'plain',
-					hrefTarget: '_self'
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
 				},
 				items: [{
-					text: 'All',
-					action: 'changeView',
-					href: '#/'
-				}, {
-					text: 'Active',
-					action: 'changeView',
-					href: '#/active'
-				}, {
-					text: 'Completed',
-					action: 'changeView',
-					href: '#/completed'
-				}]
-			}, {
-				flex: 1,
-				baseCls: null,
-				xtype: 'container',
-				items: [{
-					xtype: 'button',
+					flex: 1,
 					baseCls: null,
-					action: 'clearCompleted',
-					cls: 'clear-completed',
-					text: 'Clear completed'
+					style: 'text-align: left;',
+					name: 'itemsLeft',
+					data: { counts: 0 },
+					tpl: [
+						'<tpl><span id="todo-count"><b>{counts}</b> item',
+							'<tpl if="counts &gt; 1">s</tpl>',
+							'<tpl if="counts == 0">s</tpl>',
+						' left</span>',
+						'</tpl>'
+					]
+				}, {
+					flex: 1,
+					xtype: 'container',
+					baseCls: 'filters',
+					defaults: {
+						style: 'margin-left: 5px; margin-right: 5px;',
+						xtype: 'button',
+						ui: 'plain',
+						hrefTarget: '_self'
+					},
+					items: [{
+						text: 'All',
+						action: 'changeView',
+						href: '#/'
+					}, {
+						text: 'Active',
+						action: 'changeView',
+						href: '#/active'
+					}, {
+						text: 'Completed',
+						action: 'changeView',
+						href: '#/completed'
+					}]
+				}, {
+					flex: 1,
+					baseCls: null,
+					xtype: 'container',
+					items: [{
+						xtype: 'button',
+						baseCls: null,
+						action: 'clearCompleted',
+						cls: 'clear-completed',
+						text: 'Clear completed'
+					}]
 				}]
 			}]
 		}, {
