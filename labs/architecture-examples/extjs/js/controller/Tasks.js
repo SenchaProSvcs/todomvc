@@ -2,13 +2,10 @@ Ext.define('Todo.controller.Tasks', {
 	extend: 'Ext.app.Controller',
 
 	models: [ 'Task' ],
-
 	stores: [ 'Tasks' ],
-
 	views: 	[ 'TaskList' ],
 
 	refs: [
-		{ ref: 'taskList',    	selector: 'taskList'},
 		{ ref: 'toggleAll', 	selector: 'button[action=toggleAll]'},
 		{ ref: 'clearButton', 	selector: 'button[action=clearCompleted]'},
 		{ ref: 'toolBar',	  	selector: 'container[cls=footer]' },
@@ -20,12 +17,12 @@ Ext.define('Todo.controller.Tasks', {
 
 		this.control({
 			'todoeditor' : {
+				'canceledit'	: this.onCancelEdit,
 				'complete'		: this.onCompleteEdit
 			},
 			'taskList' : {
-				'todoChecked' 	: this.onTodoChecked,
-				'itemdblclick' 	: this.onTodoDblClicked,
-				'removeItem'	: this.onTodoRemoveItem
+				'itemclick' 	: this.onItemClick,
+				'itemdblclick' 	: this.onItemDblClicked
 			},
 			'textfield[name=newtask]' : {
 				'keyup'			: this.onTaskFieldKeyup
@@ -35,15 +32,6 @@ Ext.define('Todo.controller.Tasks', {
 			},
 			'button[action=toggleAll]': {
 				'toggle'		: this.onCheckAllClick
-			},
-			'button[action=changeView]': {
-				click: function(btn) {
-					var btns =  Ext.ComponentQuery.query('button[action=changeView]');
-
-					Ext.each(btns, function(x) {
-						x.getEl().down('span').applyStyles({ 'text-align': 'center', 'font-weight': x == btn ? 'bold' : 'normal'});
-					});
-				}
 			}
 		});
 
@@ -63,105 +51,98 @@ Ext.define('Todo.controller.Tasks', {
 
 		if (event.keyCode === ENTER_KEY_CODE && value !== '') {
 			this.store.add({label: value, checked: false});
-			this.store.filter();
 			this.store.sync();
+			this.store.filter();
 			field.reset();
 		}
 	},
 
-	onTodoChecked: function( record ) {
-		record.set('checked', !record.get('checked'));
-		this.store.filter();
+	onItemClick: function(dv, record, item, index, event, eOpts) {
+		var eventTarget = Ext.getDom(event).target.nodeName;
+
+		if (eventTarget == 'A') 
+			this.store.remove(record);
+		else if (eventTarget == 'INPUT')
+			record.set('checked', !record.get('checked'))
+		else 
+			return;
+
 		this.store.sync();
-		record.commit();
+		this.store.filter();
 	},
 
-	onTodoDblClicked: function ( list, record, el ) {
-		var editor = this.getTodoeditor(),
-			label = Ext.get(el).down('label');
+	onItemDblClicked: function (dv, record, item, index, event, eOpts) {
+		var eventTarget = Ext.getDom(event).target.nodeName;
 
-		editor.activeRecord = record;
-//		editor.activeRecord.set('editing', true);
-//		this.getTasksStore().sync();
-		editor.startEdit(label, record.data['label']);
+		if (eventTarget == 'LABEL') {
+			var editor 	= this.getTodoeditor(),
+				label 	= Ext.get(item).down('label');
+
+			this.toggleEl = Ext.get(item).down('div');
+			this.toggleEl.setStyle('visibility', 'hidden');
+
+			editor.activeRecord = record;
+			editor.startEdit(label, record.data['label']);
+		}
+	},
+
+	onCancelEdit: function( editor, value) {
+		this.toggleEl.setStyle('visibility', 'visible');
 	},
 
 	onCompleteEdit: function( editor, value ) {
 		var value = value.trim();
 
-    	if ( !value ) {
-    		this.store.remove(editor.activeRecord);
-    	}
-    	else {
-    		editor.activeRecord.set({
-    			'label' 	: value,
-    			'editing' 	: false
-    		});
-    	}
+		this.toggleEl.setStyle('visibility', 'visible');
+
+    	if ( !value ) 
+    		this.store.remove(editor.activeRecord)
+    	else 
+    		editor.activeRecord.set('label', value);
+
         this.store.sync();
 	},
 
-	onTodoRemoveItem: function (record) {
-		this.store.remove(record);
-		this.store.sync();
-	},
-
 	onClearButtonClick: function() {
-		var records = [],
-			store = this.store;
+		var records = [];
 
-		store.each(function(record) {
+		this.store.each(function(record) {
 			if (record.get('checked')) {
 				records.push(record);
 			}
 		});
-		store.remove(records);
-		store.sync();
+		this.store.remove(records);
+		this.store.sync();
 	},
 
 	onCheckAllClick: function(cb, newValue, oldValue, opts) {
-		var store = this.store;
 
-		store.suspendEvents();
-		store.each(function(record) {
+		this.store.suspendEvents();
+		this.store.each(function(record) {
 			record.set('checked', newValue);
 		});
-		store.resumeEvents();
-		store.sync();
+		this.store.resumeEvents();
+		this.store.sync();
+		this.store.filter();
 	},
 
-	onStoreDataChanged: function() {
-		var me 			= this,
-			info 		= '', 
-			text 		= '',
-			toolbar 	= me.getToolBar(),
-			tasklist 	= me.getTaskList(),
-			store 		= me.getTasksStore(),
-			button 		= me.getClearButton(),
-			toggleAll 	= me.getToggleAll(),
-			itemsLeft 	= me.getItemsLeft(),
+	onStoreDataChanged: function(store) {
+		var filteredCount 	= this.store.getCount(),
 
-			totalCount  = store.queryBy(function(record) {
+			totalCount 		= this.store.queryBy(function(record) {
 				return true;
 			}).getCount(),
 
-			activeCount = store.queryBy(function(record) {
-				return !record.get('checked');
+			completedCount 	= this.store.queryBy(function(record) {
+				return record.get('checked');
 			}).getCount(),
 
-			completedCount	= totalCount - activeCount;
+			text 			= completedCount ? 'Clear completed (' + completedCount + ')' : '',
+			token 			= Ext.History.getToken();
 
-		if (completedCount) {
-			text = 'Clear completed ('+ completedCount +')';
-		}
-
-		toggleAll.setVisible(totalCount);
-		toggleAll.toggle(activeCount == 0, true);
-
-		button.setText(text);
-		button.setVisible(completedCount);
-
-		itemsLeft.update({ counts: activeCount });
-		toolbar.setVisible(totalCount);	
+		this.getToggleAll().setVisible(totalCount).toggle((token == '/completed' && filteredCount > 0) || completedCount == totalCount, true);
+		this.getClearButton().setText(text).setVisible(completedCount);
+		this.getItemsLeft().update({ counts: totalCount - completedCount });
+		this.getToolBar().setVisible(totalCount);	
 	}
 });
