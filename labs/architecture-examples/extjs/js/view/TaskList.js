@@ -12,7 +12,6 @@ Ext.define('Ext.ux.DataView.LabelEditor', {
 
 	field: {
 		xtype : 'textfield',
-		allowOnlyWhitespace: false,
 		selectOnFocus: true
 	}
 });
@@ -26,9 +25,9 @@ Ext.define('Todo.view.TaskList' , {
 	itemSelector: 'li',
 
 	itemTpl: [ 
-		'<li class="<tpl if="checked">completed</tpl>">',
+		'<li class="<tpl if="completed">completed</tpl>">',
 		'<div class="view">',
-			'<input type="checkbox" class="toggle" <tpl if="checked">checked</tpl> /> ',
+			'<input type="checkbox" class="toggle" <tpl if="completed">completed</tpl> /> ',
 			'<label>{label}</label>',
 			'<a class="destroy"></a>',
 		'</div>',
