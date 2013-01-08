@@ -50,7 +50,7 @@ Ext.define('Todo.controller.Tasks', {
 			value = field.getValue().trim();
 
 		if (event.keyCode === ENTER_KEY_CODE && value !== '') {
-			this.store.add({label: value, checked: false});
+			this.store.add({label: value, completed: false});
 			this.store.sync();
 			this.store.filter();
 			field.reset();
@@ -63,7 +63,7 @@ Ext.define('Todo.controller.Tasks', {
 		if (eventTarget == 'A') 
 			this.store.remove(record);
 		else if (eventTarget == 'INPUT')
-			record.set('checked', !record.get('checked'))
+			record.set('completed', !record.get('completed'))
 		else 
 			return;
 
@@ -87,6 +87,7 @@ Ext.define('Todo.controller.Tasks', {
 	},
 
 	onCancelEdit: function( editor, value) {
+		console.log("cancel edit");
 		this.toggleEl.setStyle('visibility', 'visible');
 	},
 
@@ -94,6 +95,8 @@ Ext.define('Todo.controller.Tasks', {
 		var value = value.trim();
 
 		this.toggleEl.setStyle('visibility', 'visible');
+
+console.log("VALUE IS [" + value + "]");
 
     	if ( !value ) 
     		this.store.remove(editor.activeRecord)
@@ -107,7 +110,7 @@ Ext.define('Todo.controller.Tasks', {
 		var records = [];
 
 		this.store.each(function(record) {
-			if (record.get('checked')) {
+			if (record.get('completed')) {
 				records.push(record);
 			}
 		});
@@ -119,7 +122,7 @@ Ext.define('Todo.controller.Tasks', {
 
 		this.store.suspendEvents();
 		this.store.each(function(record) {
-			record.set('checked', newValue);
+			record.set('completed', newValue);
 		});
 		this.store.resumeEvents();
 		this.store.sync();
@@ -134,7 +137,7 @@ Ext.define('Todo.controller.Tasks', {
 			}).getCount(),
 
 			completedCount 	= this.store.queryBy(function(record) {
-				return record.get('checked');
+				return record.get('completed');
 			}).getCount(),
 
 			text 			= completedCount ? 'Clear completed (' + completedCount + ')' : '',
