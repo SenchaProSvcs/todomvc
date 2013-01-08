@@ -13,7 +13,7 @@ body {
         line-height: 1.4em;
         width: auto !important;
         background: #eaeaea url('../../../../assets/bg.png');
-        color: #4d4d4d;
+        color: #4d4d4d !important;
         margin: 0 auto;
         -webkit-font-smoothing: antialiased;
         -moz-font-smoothing: antialiased;
@@ -158,11 +158,6 @@ label[for='toggle-all'] {
         border-top: 1px dotted #ADADAD;
 }
 
-/*
-.todo-list li:last-child {
-        border-bottom: none;
-}
-*/
 
 .todo-list li .toggle {
         text-align: center;
@@ -254,17 +249,14 @@ label[for='toggle-all'] {
         word-break: break-word;
 }
 
-.todo-list li .edit {
-        display: none; 
-}
-
 .filters {
 /*        margin: 0;
         padding: 0;
         list-style: none;
        position: absolute;
         right: 0;
-        left: 0;*/
+        left: 0;
+*/
 }
 
 .filters li {
