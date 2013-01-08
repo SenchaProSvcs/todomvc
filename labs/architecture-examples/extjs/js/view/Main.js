@@ -108,6 +108,7 @@ Ext.define('Todo.view.Main', {
 					xtype: 'container',
 					items: [{
 						xtype: 'button',
+						hidden: true,
 						action: 'clearCompleted',
 						cls: 'clear-completed',
 						text: 'Clear completed'
