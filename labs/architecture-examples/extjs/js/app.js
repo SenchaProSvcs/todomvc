@@ -42,6 +42,6 @@ Ext.application({
 		store.clearFilter();
 
 		if (token != '/') 
-			store.filter('checked', token == '/completed');
+			store.filter('completed', token == '/completed');
 	}
 });
